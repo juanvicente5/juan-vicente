@@ -1,0 +1,68 @@
+from django.db import models
+
+class Trabajo(models.Model):
+    titulo = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    empresa = models.CharField(max_length=100)
+    ubicacion = models.CharField(max_length=50)
+    salario = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titulo
+from django.shortcuts import render, get_object_or_404
+from .models import Trabajo
+
+def lista_trabajos(request):
+    trabajos = Trabajo.objects.all()
+    return render(request, 'empleos/lista_trabajos.html', {'trabajos': trabajos})
+
+def detalle_trabajo(request, trabajo_id):
+    trabajo = get_object_or_404(Trabajo, pk=trabajo_id)
+    return render(request, 'empleos/detalle_trabajo.html', {'trabajo': trabajo})
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Trabajos</title>
+</head>
+<body>
+    <h1>Lista de Trabajos</h1>
+    <ul>
+        {% for trabajo in trabajos %}
+            <li><a href="{% url 'detalle_trabajo' trabajo.id %}">{{ trabajo.titulo }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ trabajo.titulo }}</title>
+</head>
+<body>
+    <h1>{{ trabajo.titulo }}</h1>
+    <p>Empresa: {{ trabajo.empresa }}</p>
+    <p>Ubicación: {{ trabajo.ubicacion }}</p>
+    <p>Salario: {{ trabajo.salario }}</p>
+    <p>Fecha de publicación: {{ trabajo.fecha_publicacion }}</p>
+    <p>Descripción: {{ trabajo.descripcion }}</p>
+    <a href="{% url 'lista_trabajos' %}">Volver a la lista de trabajos</a>
+</body>
+</html>
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.lista_trabajos, name='lista_trabajos'),
+    path('<int:trabajo_id>/', views.detalle_trabajo, name='detalle_trabajo'),
+]
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('empleos/', include('empleos.urls')),
+]
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
