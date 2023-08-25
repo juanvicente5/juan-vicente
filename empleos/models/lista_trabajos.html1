@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Trabajos</title>
+</head>
+<body>
+    <h1>Lista de Trabajos</h1>
+    <ul>
+        {% for trabajo in trabajos %}
+            <li><a href="{% url 'detalle_trabajo' trabajo.id %}">{{ trabajo.titulo }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
