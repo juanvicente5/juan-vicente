@@ -1,0 +1,11 @@
+tercer preentrega
+juan vicente
+
+Mi proyecto trata de una página web de contrataciones, 
+
+modelos:
+	empleos--- atributos: Carga; detalles;sueldo.
+	empleados " : nombre; apellido; presentación; estudios.    
+	empleador " : nombre; apellido; profesión; edad;.
+
+Funcion: carga datos en la base, como por ejemplo curriculum, tambien empleos, dependiendo de cada modelo.
