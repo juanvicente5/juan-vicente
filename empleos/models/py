@@ -1,0 +1,3 @@
+django-admin startproject busqueda_trabajo
+cd busqueda_trabajo
+python manage.py startapp empleos
